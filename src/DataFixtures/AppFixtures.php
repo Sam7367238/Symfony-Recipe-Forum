@@ -26,6 +26,14 @@ class AppFixtures extends Fixture
         $recipe -> setTitle("Recipe 1");
         $recipe -> setContent("Recipe 1's content.");
         $recipe -> setCreatedAt(new \DateTimeImmutable());
+        $recipe -> setPrivate(false);
+        $recipe -> setUser($user);
+
+        $recipe = new Recipe();
+        $recipe -> setTitle("Recipe 2");
+        $recipe -> setContent("Recipe 2's content.");
+        $recipe -> setCreatedAt(new \DateTimeImmutable());
+        $recipe -> setPrivate(true);
         $recipe -> setUser($user);
         
         $manager -> persist($recipe);

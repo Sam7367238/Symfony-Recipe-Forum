@@ -53,7 +53,7 @@ final class RecipeController extends AbstractController
     }
 
     #[Route("/{id<\d+>}", "show")]
-    public function show(Recipe $recipe, Request $request) {
-
+    public function show(Recipe $recipe, Request $request): Response {
+        return $this -> render("recipe/show.html.twig", compact("recipe"));
     }
 }
