@@ -12,6 +12,11 @@ Project
 This is a website where you can create or browse recipes, I got this idea from a project ideas list.
 This is also a Symfony translation of [the laravel version][3]
 
+License
+------------
+This is licensed under the [Unlicense][4]
+
 [1]: https://symfony.com
 [2]: https://symfony.com/projects
 [3]: https://github.com/Sam7367238/RecipeForum
+[4]: https://unlicense.org
