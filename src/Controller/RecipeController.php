@@ -14,4 +14,9 @@ final class RecipeController extends AbstractController
     {
         return $this -> render("recipe/index.html.twig");
     }
+
+    #[Route('/new', "new")]
+    public function new(): Response {
+        
+    }
 }

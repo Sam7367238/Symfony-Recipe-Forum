@@ -3,20 +3,16 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    {% if app.user %}
-        <p>
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
-        </p>
-    {% else %}
-        <p>
-            <a href="{{ path('app_register') }}">Register</a>Or<a href="{{ path('app_login') }}">Login</a>.
-        </p>
-    {% endif %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h1 class="display-4 mb-3">🍔 Recipe Website</h1>
+                    <p class="lead mb-0">Browse for <a href="{{ path('recipe_index') }}">recipes</a>, or create your own!</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
