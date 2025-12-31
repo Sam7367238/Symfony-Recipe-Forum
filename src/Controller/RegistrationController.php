@@ -33,9 +33,9 @@ class RegistrationController extends AbstractController
 
             // do anything else you need here, like send an email
 
-            $this -> addFlash("status", "Successfully Registered");
+            $this->addFlash('status', 'Successfully Registered');
 
-            return $security -> login($user, "form_login", "main");
+            return $security->login($user, 'form_login', 'main');
         }
 
         return $this->render('registration/register.html.twig', [

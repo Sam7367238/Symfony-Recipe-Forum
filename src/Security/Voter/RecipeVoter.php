@@ -30,9 +30,9 @@ final class RecipeVoter extends Voter
         }
 
         if (!$user instanceof User) {
-            $vote ?-> addReason("Unauthenticated");
+            $vote?->addReason('Unauthenticated');
         }
 
-        return $user === $subject -> getUser() || !$subject -> isPrivate();
+        return $user === $subject->getUser() || !$subject->isPrivate();
     }
 }

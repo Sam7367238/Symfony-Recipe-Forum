@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Recipe;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,11 +16,11 @@ class RecipeType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
-            ->add("private", CheckboxType::class, [
-                "label" => "Private",
-                "required" => false
+            ->add('private', CheckboxType::class, [
+                'label' => 'Private',
+                'required' => false,
             ])
-            ->add("save", SubmitType::class)
+            ->add('save', SubmitType::class)
         ;
     }
 
