@@ -9,7 +9,7 @@ applications and most of the [popular PHP projects][2].
 Project
 ------------
 
-This is a website where you can create or browse recipes, I got this idea from a project idea list.
+This is a website where you can create or browse recipes, I got this idea from a project ideas list.
 This is also a Symfony translation of [the laravel version][3]
 
 [1]: https://symfony.com
