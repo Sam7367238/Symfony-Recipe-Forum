@@ -47,6 +47,9 @@
             "./migrations/.gitignore"
         ]
     },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v6.10.0"
+    },
     "stof/doctrine-extensions-bundle": {
         "version": "1.15",
         "recipe": {
@@ -163,6 +166,19 @@
             "./config/routes/security.yaml"
         ]
     },
+    "symfony/translation": {
+        "version": "8.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "6.3",
+            "ref": "620a1b84865ceb2ba304c8f8bf2a185fbf32a843"
+        },
+        "files": [
+            "./config/packages/translation.yaml",
+            "./translations/.gitignore"
+        ]
+    },
     "symfony/twig-bundle": {
         "version": "8.0",
         "recipe": {
@@ -186,6 +202,19 @@
         },
         "files": [
             "./config/packages/validator.yaml"
+        ]
+    },
+    "symfony/web-profiler-bundle": {
+        "version": "8.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "7.3",
+            "ref": "a363460c1b0b4a4d0242f2ce1a843ca0f6ac9026"
+        },
+        "files": [
+            "./config/packages/web_profiler.yaml",
+            "./config/routes/web_profiler.yaml"
         ]
     }
 }

@@ -3,7 +3,31 @@
 {% block title %}Recipes{% endblock %}
 
 {% block body %}
-    <h1>Recipes</h1>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Recipes</h1>
+        <a href="{{ path('recipe_new') }}" class="btn btn-primary">New Recipe</a>
+    </div>
 
-    <a href="{{ path('recipe_new') }}">New Recipe</a>
+    <div class="row">
+        {% for recipe in recipes %}
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">
+                            <a href="{{ path('recipe_show', { id: recipe.id }) }}" class="stretched-link text-decoration-none text-dark">
+                                {{ recipe.title }}
+                            </a>
+                        </h5>
+                        <p class="card-subtitle text-muted small mb-0">By {{ recipe.user.email }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <nav class="d-flex justify-content-center mt-4" aria-label="Recipe pagination">
+        {{ knp_pagination_render(recipes) }}
+    </nav>
+</div>
 {% endblock %}

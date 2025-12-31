@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Recipe;
 use App\Entity\User;
 use App\Form\RecipeType;
+use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,9 +21,14 @@ final class RecipeController extends AbstractController
     public function __construct(private EntityManagerInterface $entityManager) {}
 
     #[Route('/', name: 'index')]
-    public function index(): Response
+    public function index(Request $request, RecipeRepository $repository, PaginatorInterface $paginator): Response
     {
-        return $this -> render("recipe/index.html.twig");
+
+        $query = $this -> entityManager -> createQuery("SELECT r, u FROM App\Entity\Recipe r INNER JOIN r.user u");
+
+        $recipes = $paginator -> paginate($query, $request -> query -> getInt("page", 1), 2);
+
+        return $this -> render("recipe/index.html.twig", compact("recipes"));
     }
 
     #[Route('/new', "new")]
@@ -43,5 +50,10 @@ final class RecipeController extends AbstractController
         }
 
         return $this -> render("recipe/new.html.twig", compact("form"));
+    }
+
+    #[Route("/{id<\d+>}", "show")]
+    public function show(Recipe $recipe, Request $request) {
+
     }
 }
