@@ -56,4 +56,34 @@ final class RecipeController extends AbstractController
     public function show(Recipe $recipe, Request $request): Response {
         return $this -> render("recipe/show.html.twig", compact("recipe"));
     }
+
+    #[Route('/{id<\d+>}/edit', "edit")]
+    public function edit(Request $request, #[CurrentUser] ?User $user, Recipe $recipe): Response {
+        $form = $this -> createForm(RecipeType::class, $recipe);
+        $form -> handleRequest($request);
+
+        if ($form -> isSubmitted() && $form -> isValid()) {
+            $this -> entityManager -> flush();
+
+            $this -> addFlash("status", "Recipe Edited Successfully");
+
+            return $this -> redirectToRoute("recipe_show", ["id" => $recipe -> getId()]);
+        }
+
+        return $this -> render("recipe/edit.html.twig", compact("form"));
+    }
+
+    #[Route("/{id<\d+>}/delete", "delete")]
+    public function delete(Request $request, Recipe $recipe) {
+        if ($request -> isMethod("POST")) {
+            $this -> entityManager -> remove($recipe);
+            $this -> entityManager -> flush();
+
+            $this -> addFlash("status", "Recipe Deleted Successfully");
+            
+            return $this -> redirectToRoute("recipe_index");
+        }
+
+        return $this -> render("recipe/delete.html.twig", ["id" => $recipe -> getId()]);
+    }
 }

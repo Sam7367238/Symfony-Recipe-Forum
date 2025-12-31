@@ -36,8 +36,8 @@
                 <div class="card-footer d-flex justify-content-between">
                     <div>
                         <a href="{{ path('recipe_index') }}" class="btn btn-outline-secondary btn-sm">← Back to list</a>
-                        <a href="" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="" class="btn btn-danger btn-sm">Delete</a>
+                        <a href="{{ path('recipe_edit', { id: recipe.id }) }}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{{ path('recipe_delete', { id: recipe.id }) }}" class="btn btn-danger btn-sm">Delete</a>
                     </div>
                     <small class="text-muted">ID: {{ recipe.id }}</small>
                 </div>
