@@ -4,30 +4,87 @@
 
 {% block body %}
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1 class="h3 mb-0">Recipes</h1>
-        <a href="{{ path('recipe_new') }}" class="btn btn-primary">New Recipe</a>
+    <div class="row mb-3 align-items-center">
+        <div class="col">
+            <h1 class="h3 mb-0">Recipes</h1>
+        </div>
+        <div class="col-auto">
+            <a href="{{ path('recipe_new') }}" class="btn btn-primary">New Recipe</a>
+        </div>
     </div>
 
     <div class="row">
-        {% for recipe in recipes %}
-            <div class="col-12 col-md-6 col-lg-4 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title mb-2">
-                            <a href="{{ path('recipe_show', { id: recipe.id }) }}" class="stretched-link text-decoration-none text-dark">
-                                {{ recipe.title }}
-                            </a>
-                        </h5>
-                        <p class="card-subtitle text-muted small mb-0">By {{ recipe.user.email }}</p>
+        <!-- Public recipes (left) -->
+        <div class="col-12 col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header">
+                    <h2 class="h5 mb-0">Public Recipes</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for recipe in publicRecipes %}
+                            <div class="col-12 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-2">
+                                            <a href="{{ path('recipe_show', { id: recipe.id }) }}" class="stretched-link text-decoration-none text-dark">
+                                                {{ recipe.title }}
+                                            </a>
+                                        </h5>
+                                        <p class="card-subtitle text-muted small mb-0">By {{ recipe.user.email }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-12">
+                                <p class="text-muted">No public recipes yet.</p>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
+                <div class="card-footer bg-white">
+                    <nav class="d-flex justify-content-center" aria-label="Public recipe pagination">
+                        {{ knp_pagination_render(publicRecipes) }}
+                    </nav>
+                </div>
             </div>
-        {% endfor %}
-    </div>
+        </div>
 
-    <nav class="d-flex justify-content-center mt-4" aria-label="Recipe pagination">
-        {{ knp_pagination_render(recipes) }}
-    </nav>
+        <!-- User's recipes (right) -->
+        <div class="col-12 col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header">
+                    <h2 class="h5 mb-0">My Recipes</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for recipe in userRecipes %}
+                            <div class="col-12 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-2">
+                                            <a href="{{ path('recipe_show', { id: recipe.id }) }}" class="stretched-link text-decoration-none text-dark">
+                                                {{ recipe.title }}
+                                            </a>
+                                        </h5>
+                                        <p class="card-subtitle text-muted small mb-0">By {{ recipe.user.email }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-12">
+                                <p class="text-muted">You have no recipes yet.</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <nav class="d-flex justify-content-center" aria-label="User recipe pagination">
+                        {{ knp_pagination_render(userRecipes) }}
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
