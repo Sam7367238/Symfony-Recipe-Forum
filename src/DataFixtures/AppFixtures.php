@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Recipe;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -18,8 +19,16 @@ class AppFixtures extends Fixture
         $user -> setEmail("email@email.com");
         $user -> setPassword($this -> passwordHasher -> hashPassword($user, "Password"));
         $user -> setRoles(["ROLE_USER"]);
-        
+
         $manager -> persist($user);
+
+        $recipe = new Recipe();
+        $recipe -> setTitle("Recipe 1");
+        $recipe -> setContent("Recipe 1's content.");
+        $recipe -> setCreatedAt(new \DateTimeImmutable());
+        $recipe -> setUser($user);
+        
+        $manager -> persist($recipe);
 
         $manager -> flush();
     }
