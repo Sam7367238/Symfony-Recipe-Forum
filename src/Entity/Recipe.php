@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Repository\RecipeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Timestampable;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 class Recipe
@@ -15,12 +18,17 @@ class Recipe
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[NotBlank]
+    #[Length(min: 3, max: 255)]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[NotBlank]
+    #[Length(min: 3)]
     private ?string $content = null;
 
     #[ORM\Column]
+    #[Timestampable]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'recipes')]
