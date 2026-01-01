@@ -23,12 +23,21 @@ class AppFixtures extends Fixture
 
         $manager->persist($user);
 
+        $user = new User();
+        $user->setEmail('email2@email.com');
+        $user->setPassword($this->passwordHasher->hashPassword($user, 'Password'));
+        $user->setRoles(['ROLE_USER']);
+
+        $manager->persist($user);
+
         $recipe = new Recipe();
         $recipe->setTitle('Recipe 1');
         $recipe->setContent("Recipe 1's content.");
         $recipe->setCreatedAt(new \DateTimeImmutable());
         $recipe->setPrivate(false);
         $recipe->setUser($user);
+
+        $manager->persist($recipe);
 
         $recipe = new Recipe();
         $recipe->setTitle('Recipe 2');
