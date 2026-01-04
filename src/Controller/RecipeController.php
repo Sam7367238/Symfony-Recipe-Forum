@@ -25,13 +25,15 @@ final class RecipeController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(Request $request, #[CurrentUser] ?User $user, RecipeRepository $repository, PaginatorInterface $paginator): Response
     {
-        $publicQuery = $this->entityManager->createQuery("SELECT r, u FROM App\Entity\Recipe r INNER JOIN r.user u WHERE r.private = false");
-        $userQuery = $repository->createQueryBuilder('r')->where('r.user = :id')->setParameter('id', $user->getId());
+        $page = $request->query->getInt('page', 1);
 
-        $publicRecipes = $paginator->paginate($publicQuery, $request->query->getInt('page', 1), 5);
-        $userRecipes = $paginator->paginate($userQuery, $request->query->getInt('page', 1), 5);
+        $publicRecipes = $repository->findPublicRecipes();
+        $userRecipes = $repository->findUserRecipes($user);
 
-        return $this->render('recipe/index.html.twig', compact('publicRecipes', 'userRecipes'));
+        $paginatedPublicRecipes = $paginator->paginate($publicRecipes, $page, 5);
+        $paginatedUserRecipes = $paginator->paginate($userRecipes, $page, 5);
+
+        return $this->render('recipe/index.html.twig', compact('paginatedPublicRecipes', 'paginatedUserRecipes'));
     }
 
     #[Route('/new', 'new')]

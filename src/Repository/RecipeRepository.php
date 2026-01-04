@@ -3,7 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Recipe;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,6 +17,27 @@ class RecipeRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Recipe::class);
+    }
+
+    public function findPublicRecipes(): Query
+    {
+        $recipes = $this
+        ->getEntityManager()
+        ->createQuery(
+            "SELECT r, u FROM App\Entity\Recipe r INNER JOIN r.user u WHERE r.private = false"
+        );
+
+        return $recipes;
+    }
+
+    public function findUserRecipes(User $user): QueryBuilder
+    {
+        $recipes = $this
+        ->createQueryBuilder('r')
+        ->where('r.user = :id')
+        ->setParameter('id', $user->getId());
+
+        return $recipes;
     }
 
     //    /**

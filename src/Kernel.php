@@ -12,7 +12,7 @@ class Kernel extends BaseKernel
 
     public function process(ContainerBuilder $container): void
     {
-        if ($this->environment == 'test') {
+        if ('test' == $this->environment) {
             $container->getDefinition('security.token_storage')->clearTag('kernel.reset');
             $container->getDefinition('doctrine')->clearTag('kernel.reset');
         }

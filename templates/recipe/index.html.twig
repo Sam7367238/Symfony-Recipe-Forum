@@ -22,7 +22,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        {% for recipe in publicRecipes %}
+                        {% for recipe in paginatedPublicRecipes %}
                             <div class="col-12 mb-3">
                                 <div class="card h-100">
                                     <div class="card-body">
@@ -44,7 +44,7 @@
                 </div>
                 <div class="card-footer bg-white">
                     <nav class="d-flex justify-content-center" aria-label="Public recipe pagination">
-                        {{ knp_pagination_render(publicRecipes) }}
+                        {{ knp_pagination_render(paginatedPublicRecipes) }}
                     </nav>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        {% for recipe in userRecipes %}
+                        {% for recipe in paginatedUserRecipes %}
                             <div class="col-12 mb-3">
                                 <div class="card h-100">
                                     <div class="card-body">
@@ -79,7 +79,7 @@
                 </div>
                 <div class="card-footer bg-white">
                     <nav class="d-flex justify-content-center" aria-label="User recipe pagination">
-                        {{ knp_pagination_render(userRecipes) }}
+                        {{ knp_pagination_render(paginatedUserRecipes) }}
                     </nav>
                 </div>
             </div>
