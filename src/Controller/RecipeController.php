@@ -6,7 +6,7 @@ use App\Entity\Recipe;
 use App\Entity\User;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\RecipeService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/recipe', 'recipe_')]
 final class RecipeController extends AbstractController
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(
+        private RecipeService $recipeService,
+    )
     {
     }
 
@@ -27,11 +29,9 @@ final class RecipeController extends AbstractController
     {
         $page = $request->query->getInt('page', 1);
 
-        $publicRecipes = $repository->findPublicRecipes();
-        $userRecipes = $repository->findUserRecipes($user);
+        $recipes = $this -> recipeService -> findRecipes(user: $user, page: $page, paginator: $paginator);
 
-        $paginatedPublicRecipes = $paginator->paginate($publicRecipes, $page, 5);
-        $paginatedUserRecipes = $paginator->paginate($userRecipes, $page, 5);
+        [$paginatedPublicRecipes, $paginatedUserRecipes] = $recipes;
 
         return $this->render('recipe/index.html.twig', compact('paginatedPublicRecipes', 'paginatedUserRecipes'));
     }
@@ -45,10 +45,7 @@ final class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $recipe->setUser($user);
-
-            $this->entityManager->persist($recipe);
-            $this->entityManager->flush();
+            $this -> recipeService -> saveRecipe($recipe, $user);
 
             $this->addFlash('status', 'Recipe Posted Successfully');
 
@@ -73,7 +70,7 @@ final class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->flush();
+            $this -> recipeService -> flush();
 
             $this->addFlash('status', 'Recipe Edited Successfully');
 
@@ -85,11 +82,10 @@ final class RecipeController extends AbstractController
 
     #[Route("/{id<\d+>}/delete", 'delete')]
     #[IsGranted('RECIPE_MANAGE', 'recipe')]
-    public function delete(Request $request, Recipe $recipe)
+    public function delete(Request $request, Recipe $recipe): Response
     {
         if ($request->isMethod('POST')) {
-            $this->entityManager->remove($recipe);
-            $this->entityManager->flush();
+            $this -> recipeService -> remove($recipe);
 
             $this->addFlash('status', 'Recipe Deleted Successfully');
 
