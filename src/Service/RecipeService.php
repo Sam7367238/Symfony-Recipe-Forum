@@ -7,17 +7,19 @@ use App\Entity\User;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-readonly final class RecipeService extends AbstractService {
+final readonly class RecipeService extends AbstractService
+{
     public function __construct(
         EntityManagerInterface $entityManager,
-        private RecipeRepository $repository
+        private RecipeRepository $repository,
     ) {
         parent::__construct($entityManager);
     }
 
-    public function findRecipes(User $user, int $page, $paginator): array {
-        $publicRecipes = $this-> repository ->findPublicRecipes();
-        $userRecipes = $this -> repository->findUserRecipes($user);
+    public function findRecipes(User $user, int $page, $paginator): array
+    {
+        $publicRecipes = $this->repository->findPublicRecipes();
+        $userRecipes = $this->repository->findUserRecipes($user);
 
         $paginatedPublicRecipes = $paginator->paginate($publicRecipes, $page, 5);
         $paginatedUserRecipes = $paginator->paginate($userRecipes, $page, 5);
@@ -25,7 +27,8 @@ readonly final class RecipeService extends AbstractService {
         return [$paginatedPublicRecipes, $paginatedUserRecipes];
     }
 
-    public function saveRecipe(Recipe $recipe, User $user): void {
+    public function saveRecipe(Recipe $recipe, User $user): void
+    {
         $recipe->setUser($user);
 
         $this->entityManager->persist($recipe);

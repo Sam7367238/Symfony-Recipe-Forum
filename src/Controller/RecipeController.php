@@ -20,8 +20,7 @@ final class RecipeController extends AbstractController
 {
     public function __construct(
         private RecipeService $recipeService,
-    )
-    {
+    ) {
     }
 
     #[Route('/', name: 'index')]
@@ -29,7 +28,7 @@ final class RecipeController extends AbstractController
     {
         $page = $request->query->getInt('page', 1);
 
-        $recipes = $this -> recipeService -> findRecipes(user: $user, page: $page, paginator: $paginator);
+        $recipes = $this->recipeService->findRecipes(user: $user, page: $page, paginator: $paginator);
 
         [$paginatedPublicRecipes, $paginatedUserRecipes] = $recipes;
 
@@ -45,7 +44,7 @@ final class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this -> recipeService -> saveRecipe($recipe, $user);
+            $this->recipeService->saveRecipe($recipe, $user);
 
             $this->addFlash('status', 'Recipe Posted Successfully');
 
@@ -70,7 +69,7 @@ final class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this -> recipeService -> flush();
+            $this->recipeService->flush();
 
             $this->addFlash('status', 'Recipe Edited Successfully');
 
@@ -85,7 +84,7 @@ final class RecipeController extends AbstractController
     public function delete(Request $request, Recipe $recipe): Response
     {
         if ($request->isMethod('POST')) {
-            $this -> recipeService -> remove($recipe);
+            $this->recipeService->remove($recipe);
 
             $this->addFlash('status', 'Recipe Deleted Successfully');
 
